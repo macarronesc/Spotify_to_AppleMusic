@@ -1,0 +1,20 @@
+name: "Remember workflow"
+on:
+  schedule:
+    - cron: '0 16 * * 1'  # Run this workflow every Monday at 16:00 UTC
+
+jobs: 
+ remember-job:
+    name: "Remember job"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloning repository
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10.8'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run Remember script
+        run: python app_remember.py

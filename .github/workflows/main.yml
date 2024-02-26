@@ -1,0 +1,30 @@
+name: "Spotify to Apple Music workflow"
+on:
+  schedule:
+    - cron: '0 17 * * 1'  # Run this workflow every Monday at 16:00 UTC
+
+jobs:
+  converter-job:
+    name: "Converter job"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cloning repository
+        uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10.8'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run Python script
+        run: python app.py
+        env:
+          APPLE_MUSIC_TOKEN: ${{ secrets.APPLE_MUSIC_TOKEN }}
+          APPLE_MUSIC_COOKIES: ${{ secrets.APPLE_MUSIC_COOKIES }}
+          APPLE_MUSIC_MEDIA_USER_TOKEN: ${{ secrets.APPLE_MUSIC_MEDIA_USER_TOKEN }}
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          SPOTIFY_PLAYLISTS_URLS: ${{ secrets.SPOTIFY_PLAYLISTS_URLS }}
+          SPOTIFY_PLAYLISTS_NAMES: ${{ secrets.SPOTIFY_PLAYLISTS_NAMES }}

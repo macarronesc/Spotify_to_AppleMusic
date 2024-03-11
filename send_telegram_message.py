@@ -7,6 +7,9 @@ import os
 TELEGRAM_API_TOKEN = os.environ.get('TELEGRAM_TOKEN') 
 CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID') 
 
+print(TELEGRAM_API_TOKEN)
+print(CHAT_ID)
+
 async def send_to_telegram(message):
     # Initialize the Telegram bot
     bot = Bot(token=TELEGRAM_API_TOKEN)

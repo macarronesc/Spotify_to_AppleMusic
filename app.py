@@ -14,7 +14,9 @@ if len(sys.argv) < 3 and len(sys.argv) > 1:
 
 else:
     playlists_urls = os.environ.get('SPOTIFY_PLAYLISTS_URLS') 
-    playlists_names = os.environ.get('SPOTIFY_PLAYLISTS_NAMES') 
+    # playlists_names = os.environ.get('SPOTIFY_PLAYLISTS_NAMES') 
+
+print(playlists_urls)
 
 # Split the string to get a list
 playlists_urls = playlists_urls.split(',')
@@ -55,7 +57,7 @@ async def main():
             successful_playlists.append(playlist_name)
 
             time.sleep(5)
-        except e:
+        except Exception as e:
             print('Error getting tracks from playlist:', playlist_name)
             print(e)
             failed_playlists.append(playlist_name)

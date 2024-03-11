@@ -2,6 +2,7 @@ name: "Spotify to Apple Music workflow"
 on:
   schedule:
     - cron: '0 17 * * 1'  # Run this workflow every Monday at 16:00 UTC
+  workflow_dispatch:
 
 jobs:
   converter-job:

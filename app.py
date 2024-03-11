@@ -14,9 +14,7 @@ if len(sys.argv) < 3 and len(sys.argv) > 1:
 
 else:
     playlists_urls = os.environ.get('SPOTIFY_PLAYLISTS_URLS') 
-    # playlists_names = os.environ.get('SPOTIFY_PLAYLISTS_NAMES') 
-
-print(playlists_urls)
+    playlists_names = os.environ.get('SPOTIFY_PLAYLISTS_NAMES') 
 
 # Split the string to get a list
 playlists_urls = playlists_urls.split(',')

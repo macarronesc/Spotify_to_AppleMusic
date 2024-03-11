@@ -17,7 +17,3 @@ async def main():
         message = 'Playlists are old, delete them.'
         print(message)
         await send_telegram_message.send_to_telegram(message)
-
-# Run the main function
-if __name__ == '__main__':
-    asyncio.run(main())

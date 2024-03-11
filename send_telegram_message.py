@@ -4,14 +4,8 @@ import sys
 import os
 
 # Spotify to Apple Music bot
-TELEGRAM_API_TOKEN = os.environ.get('TELEGRAM_TOKEN') 
+TELEGRAM_API_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN') 
 CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID') 
-
-print(TELEGRAM_API_TOKEN)
-print(CHAT_ID)
-
-print(type(TELEGRAM_API_TOKEN))
-print(type(CHAT_ID))
 
 async def send_to_telegram(message):
     # Initialize the Telegram bot

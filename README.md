@@ -22,7 +22,7 @@ To use this application, you will need the following:
 ## Usage
 
 1. Install the requirements with `pip install -r requirements.txt`
-2. Run the `app.py` script with the Spotify playlist ID as an argument. For example: `python app.py "<Spotify_playlist_link_1><Spotify_playlist_link_2>" "<name_playlist_1><name_playlist_2>"`.
+2. Run the `app.py` script with the Spotify playlist ID as an argument. For example: `python app.py "<Spotify_playlist_link_1>,<Spotify_playlist_link_2>" "<name_playlist_1>,<name_playlist_2>"`.
 3. Wait for the script to finish and check the Telegram chat for the confirmation or error message.
 4. Enjoy your transferred playlist on Apple Music!
 
@@ -64,7 +64,7 @@ APPLE_MUSIC_COOKIES=<your Apple Music cookies>
 APPLE_MUSIC_MEDIA_USER_TOKEN=<your Apple Music media user token>
 APPLE_MUSIC_TOKEN=<your Apple Music authorization token>
 TELEGRAM_CHAT_ID=<your Telegram chat ID>
-TELEGRAM_TOKEN=<your Telegram bot token>
+TELEGRAM_BOT_TOKEN=<your Telegram bot token>
 ```
 
 

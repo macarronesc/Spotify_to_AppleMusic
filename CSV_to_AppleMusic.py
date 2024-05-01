@@ -43,41 +43,33 @@ def create_apple_music_playlist(session, playlist_name, description):
 
 # Function to get the iTunes ID of a song
 def get_itunes_id(title, artist, album):
-    BASE_URL = "https://itunes.apple.com/search?country=ES&media=music&entity=song&limit=5&term="
+    country = os.environ.get('APPLE_MUSIC_STOREFRONT', 'ES')
+    BASE_URL = f"https://itunes.apple.com/search?country={country}&media=music&entity=song&limit=5&term="
+    data = None
+    search_terms = [
+        f"{title} {artist} {album}",
+        f"{title} {artist}",
+        f"{title} {album}",
+        title
+    ]
     # Search the iTunes catalog for a song
-    try:
-        # Search for the title + artist + album
-        url = BASE_URL + urllib.parse.quote(title + " " + artist + " " + album)
-        request = urllib.request.Request(url)
-        response = urllib.request.urlopen(request)
-        data = json.loads(response.read().decode('utf-8'))
-        # If no result, search for the title + artist
-        if data['resultCount'] == 0:
-            url = BASE_URL + urllib.parse.quote(title + " " + artist)
+    for term in search_terms:
+        try:
+            url = BASE_URL + urllib.parse.quote(term)
             request = urllib.request.Request(url)
             response = urllib.request.urlopen(request)
             data = json.loads(response.read().decode('utf-8'))
-            # If no result, search for the title + album
-            if data['resultCount'] == 0:
-                url = BASE_URL + urllib.parse.quote(title + " " + album)
-                request = urllib.request.Request(url)
-                response = urllib.request.urlopen(request)
-                data = json.loads(response.read().decode('utf-8'))
-                # If no result, search for the title
-                if data['resultCount'] == 0:
-                    url = BASE_URL + urllib.parse.quote(title)
-                    request = urllib.request.Request(url)
-                    response = urllib.request.urlopen(request)
-                    data = json.loads(response.read().decode('utf-8'))
-    except:
-        return print("An error occured with the request.")
-    
+            if data.get('resultCount', 0) > 0:
+                break
+        except Exception:
+            continue
+
+    if not data or data.get('resultCount', 0) == 0:
+        return None
+
     # Try to match the song with the results
     try:
-        response = urllib.request.urlopen(request)
-        data = json.loads(response.read().decode('utf-8'))
-        
-        for each in data['results']:
+        for each in data.get('results', []):
             #Trying to match with the exact track name, the artist name and the album name
             if each['trackName'].lower() == title.lower() and each['artistName'].lower() == artist.lower() and each['collectionName'].lower() == album.lower():
                 return each['trackId']           
@@ -112,16 +104,16 @@ def get_itunes_id(title, artist, album):
 # Function to add a song to a playlist
 def add_song_to_playlist(session, song_id, playlist_id, playlist_name):
     try:   
-        request = session.post(f"https://amp-api.music.apple.com/v1/me/library/playlists/{playlist_id}/tracks", json={"data":[{"id":f"{song_id}","type":"songs"}]})
+        response = session.post(f"https://amp-api.music.apple.com/v1/me/library/playlists/{playlist_id}/tracks", json={"data":[{"id":f"{song_id}","type":"songs"}]})
         # Checking if the request is successful
-        if requests.codes.ok:
+        if response.ok:
             print(f"Song {song_id} added to playlist {playlist_name}!")
             return True
         # If not, print the error code
         else: 
-            print(f"Error {request.status_code} while adding song {song_id} to playlist {playlist_name}!")
+            print(f"Error {response.status_code} while adding song {song_id} to playlist {playlist_name}!")
             return False
-    except:
+    except Exception as e:
         print(f"HOST ERROR: Apple Music might have blocked the connection during the add of {song_id} to playlist {playlist_name}!\nPlease wait a few minutes and try again.\nIf the problem persists, please contact the developer.")
         return False
 
@@ -162,12 +154,11 @@ def create_playlist_and_add_song(file, description):
     with requests.Session() as s:
         s.headers.update({"Authorization": f"{token}",
                     "media-user-token": f"{media_user_token}",
-                    "Cookie": f"{cookies}".encode('utf-8'),
+                    "Cookie": f"{cookies}",
                     "Host": "amp-api.music.apple.com",
                     "Accept-Encoding":"gzip, deflate, br",
                     "Referer": "https://music.apple.com/",
                     "Origin": "https://music.apple.com",
-                    "Content-Length": "45",
                     "Connection": "keep-alive",
                     "Sec-Fetch-Dest": "empty",
                     "Sec-Fetch-Mode": "cors",

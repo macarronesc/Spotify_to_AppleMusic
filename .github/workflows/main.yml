@@ -1,9 +1,9 @@
 name: "Spotify to Apple Music workflow"
 on:
-  schedule:
-    - cron: '0 17 * * 1'  # Run this workflow every Monday at 16:00 UTC
+  #schedule:
+  #  - cron: '0 17 * * 1'  # Run this workflow every Monday at 16:00 UTC
   workflow_dispatch:
-  push:
+  #push:
 
 jobs:
   converter-job:
@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cloning repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10.8'
       - name: Install dependencies

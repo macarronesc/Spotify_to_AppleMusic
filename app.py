@@ -8,13 +8,16 @@ import os
 import sys
 
 # Get argument with a playlists urls
-if len(sys.argv) < 3 and len(sys.argv) > 1:
+if len(sys.argv) >= 3:
     playlists_urls = sys.argv[1]
     playlists_names = sys.argv[2]
-
 else:
     playlists_urls = os.environ.get('SPOTIFY_PLAYLISTS_URLS') 
     playlists_names = os.environ.get('SPOTIFY_PLAYLISTS_NAMES') 
+
+if not playlists_urls or not playlists_names:
+    print('Error: Spotify playlist URLs or names were not provided.')
+    sys.exit(1)
 
 # Split the string to get a list
 playlists_urls = playlists_urls.split(',')
@@ -42,7 +45,7 @@ async def main():
             Spotify_playlist_to_CSV.create_csv_file(playlist_name, tracks)
 
             # Print an advise if exist csv
-            if file_is_not_empty and tracks:
+            if file_is_not_empty(playlist_name + '.csv') and tracks:
                 print('Tracks saved to CSV file:', playlist_name + '.csv')
             else:
                 print('No tracks saved to CSV file:', playlist_name + '.csv')

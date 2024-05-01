@@ -65,6 +65,8 @@ APPLE_MUSIC_MEDIA_USER_TOKEN=<your Apple Music media user token>
 APPLE_MUSIC_TOKEN=<your Apple Music authorization token>
 TELEGRAM_CHAT_ID=<your Telegram chat ID>
 TELEGRAM_BOT_TOKEN=<your Telegram bot token>
+# Optional (defaults to ES):
+APPLE_MUSIC_STOREFRONT=<your country code, e.g. US, ES, MX>
 ```
 
 
@@ -73,3 +75,7 @@ TELEGRAM_BOT_TOKEN=<your Telegram bot token>
 ### Missing songs
 
 The script to retrieve the Apple Music identifier for a Spotify song is quite basic. It simply compares the title, artist, and album name in many different combinations of search terms. The goal is to match an Apple Music song with your Spotify song and then get their iTunes identifier (it's the same as Apple Music identifiers). Some songs don't have the exact same title, artist, or album name (extraneous spacing, for example) in both services. This results in the script failing to retrieve an identifier for some songs. Hopefully, you'll be able to add the missing songs manually thanks to the noresult.txt file.
+
+## Disclaimer
+
+This project is for educational and personal use only. It is not affiliated with, authorized, maintained, or endorsed by Apple or Spotify.
